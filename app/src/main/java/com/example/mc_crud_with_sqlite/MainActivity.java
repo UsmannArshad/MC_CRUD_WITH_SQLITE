@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import com.example.mc_crud_with_sqlite.data.DBHelper;
 import com.example.mc_crud_with_sqlite.models.StudentModel;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Button buttonadd,buttonview;
@@ -46,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
         buttonview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                DBHelper dbHelper=new DBHelper(MainActivity.this);
+                ArrayList<StudentModel> studentarray=new ArrayList<>();
+                studentarray=dbHelper.GetAllStudents();
+                ArrayAdapter<StudentModel> adapter=new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,studentarray);
+                listView.setAdapter(adapter);
             }
         });
     }

@@ -5,8 +5,17 @@ public class StudentModel {
     private String rollNumber;
     private boolean isActive;
 
+    @Override
+    public String toString() {
+        return "StudentModel{" +
+                "name='" + name + '\'' +
+                ", rollNmber=" + rollNumber +
+                ", isEnroll=" + isActive +
+                '}';
+    }
+
     public StudentModel(String name1, String rollno, boolean isactive) {
-        name = name;
+        name = name1;
         rollNumber = rollno;
         isActive = isactive;
     }
