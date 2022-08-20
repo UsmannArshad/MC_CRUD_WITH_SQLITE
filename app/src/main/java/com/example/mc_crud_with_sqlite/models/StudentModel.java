@@ -1,4 +1,4 @@
-package com.example.mc_crud_with_sqlite;
+package com.example.mc_crud_with_sqlite.models;
 
 public class StudentModel {
     private String name;

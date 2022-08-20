@@ -10,6 +10,9 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.mc_crud_with_sqlite.data.DBHelper;
+import com.example.mc_crud_with_sqlite.models.StudentModel;
+
 public class MainActivity extends AppCompatActivity {
     Button buttonadd,buttonview;
     EditText editname,editrollno;
@@ -27,16 +30,23 @@ public class MainActivity extends AppCompatActivity {
         listView=findViewById(R.id.listview1);
 
         buttonadd.setOnClickListener(new View.OnClickListener() {
+            StudentModel studentModel;
             @Override
             public void onClick(View view) {
                 try {
-                    StudentModel s = new StudentModel(editname.getText().toString(), editrollno.getText().toString(), switch1.isChecked());
+                    studentModel= new StudentModel(editname.getText().toString(), editrollno.getText().toString(), switch1.isChecked());
                 }
                 catch (Exception e){
                     Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
                 DBHelper dbHelper  = new DBHelper(MainActivity.this);
-                dbHelper.addStudent(studentModel);
+                dbHelper.AddStudent(studentModel);
+            }
+        });
+        buttonview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
