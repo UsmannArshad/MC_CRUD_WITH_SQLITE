@@ -67,6 +67,15 @@ public class DBHelper extends SQLiteOpenHelper {
         db.delete(Params.Table_Name,Params.Student_RollNumber+"=?",new String[]{rollno});
         db.close();
     }
+    public int UpdateStudent(StudentModel newstudent,String Rollno)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(Params.Student_Name,newstudent.getName());
+        values.put(Params.Student_RollNumber,newstudent.getRollNumber());
+        values.put(Params.Student_Active,newstudent.isActive());
+        return db.update(Params.Table_Name,values,Params.Student_RollNumber + "=?",new String[]{Rollno});
+    }
 
 
 }
