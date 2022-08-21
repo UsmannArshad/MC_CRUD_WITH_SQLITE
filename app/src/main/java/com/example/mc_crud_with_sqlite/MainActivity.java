@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -64,28 +65,35 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                DBHelper dbHelper=new DBHelper(MainActivity.this);
-                AlertDialog a=new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Edit Student")
-                        .setMessage("Choose an option from below!")
-                        .setCancelable(true)
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                StudentModel s=studentarray.get(i);
-                                dbHelper.DeleteStudent(s.getRollNumber());
-                                studentarray=dbHelper.GetAllStudents();
-                                adapter=new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,studentarray);
-                                listView.setAdapter(adapter);
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                           @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                StudentModel s=studentarray.get(i);
+                Intent intent=new Intent(MainActivity.this,EditStudent.class);
+                Bundle Student=new Bundle();
+                Student.putString("Name",s.getName());
+                Student.putString("Rollno",s.getRollNumber());
+                Student.putBoolean("IsActive",s.isActive());
+                intent.putExtras(Student);
+                startActivity(intent);
+//                AlertDialog a=new AlertDialog.Builder(MainActivity.this)
+//                        .setTitle("Edit Student")
+//                        .setMessage("Choose an option from below!")
+//                        .setCancelable(true)
+//                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                StudentModel s=studentarray.get(i);
+//                                dbHelper.DeleteStudent(s.getRollNumber());
+//                                studentarray=dbHelper.GetAllStudents();
+//                                adapter=new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,studentarray);
+//                                listView.setAdapter(adapter);
+//                            }
+//                        })
+//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                           @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        })
+//                        .show();
             }
 
         });
