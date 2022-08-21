@@ -40,6 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(Params.Student_RollNumber,s.getRollNumber());
         values.put(Params.Student_Active,s.isActive());
         db.insert(Params.Table_Name,null,values);
+        db.close();
         Log.d("dbquery","studentadded");
     }
     public ArrayList<StudentModel> GetAllStudents()
@@ -59,6 +60,12 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return studentArrayList;
+    }
+    public void DeleteStudent(String rollno)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.delete(Params.Table_Name,Params.Student_RollNumber+"=?",new String[]{rollno});
+        db.close();
     }
 
 

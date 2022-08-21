@@ -1,9 +1,12 @@
 package com.example.mc_crud_with_sqlite;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     EditText editname,editrollno;
     Switch switch1;
     ListView listView;
+    ArrayList<StudentModel> studentarray;
+    ArrayAdapter<StudentModel> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +55,39 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DBHelper dbHelper=new DBHelper(MainActivity.this);
-                ArrayList<StudentModel> studentarray=new ArrayList<>();
+                studentarray=new ArrayList<>();
                 studentarray=dbHelper.GetAllStudents();
-                ArrayAdapter<StudentModel> adapter=new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,studentarray);
+                adapter=new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,studentarray);
                 listView.setAdapter(adapter);
             }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DBHelper dbHelper=new DBHelper(MainActivity.this);
+                AlertDialog a=new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Edit Student")
+                        .setMessage("Choose an option from below!")
+                        .setCancelable(true)
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                StudentModel s=studentarray.get(i);
+                                dbHelper.DeleteStudent(s.getRollNumber());
+                                studentarray=dbHelper.GetAllStudents();
+                                adapter=new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,studentarray);
+                                listView.setAdapter(adapter);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                           @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+
         });
     }
 }
